@@ -160,6 +160,13 @@ export default function HomePage() {
 
   const recentProperties = data?.data ?? [];
 
+  // Repeat the list so each marquee half is far wider than any viewport —
+  // otherwise the loop shows blank gaps on wide screens.
+  const marqueeLoop =
+    categories && categories.length > 0
+      ? Array.from({ length: 4 }, () => categories).flat()
+      : [];
+
   const searchHero = () => {
     const params = new URLSearchParams();
     if (heroQuery.trim()) params.set("search", heroQuery.trim());
@@ -234,9 +241,9 @@ export default function HomePage() {
           </div>
         </div>
         <div className="relative mt-6 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
-          <div className="flex w-max animate-marquee">
-            <CategoryMarqueeRow categories={categories ?? []} />
-            <CategoryMarqueeRow categories={categories ?? []} aria-hidden />
+          <div className="flex w-max animate-marquee will-change-transform hover:[animation-play-state:paused] motion-reduce:animate-none">
+            <CategoryMarqueeRow categories={marqueeLoop} />
+            <CategoryMarqueeRow categories={marqueeLoop} aria-hidden />
           </div>
         </div>
       </section>
@@ -497,9 +504,9 @@ function CategoryMarqueeRow({
   if (categories.length === 0) return null;
   return (
     <div className="flex shrink-0 gap-4 pr-4" aria-hidden={ariaHidden}>
-      {categories.map((category) => (
+      {categories.map((category, n) => (
         <Link
-          key={category}
+          key={`${category}-${n}`}
           href={`/properties?category=${encodeURIComponent(category)}`}
           tabIndex={ariaHidden ? -1 : undefined}
           className="group flex shrink-0 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 transition hover:-translate-y-0.5 hover:border-indigo-200 hover:bg-indigo-50/50 hover:shadow-lg hover:shadow-indigo-500/10"
