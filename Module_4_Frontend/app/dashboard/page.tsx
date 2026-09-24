@@ -205,7 +205,7 @@ export default function DashboardOverviewPage() {
             <StatCard icon={Clock3} label="Pending requests" value={stats.data?.rentalRequests.pending ?? "–"} iconClassName="bg-amber-50 text-amber-600" />
           </div>
 
-          <div className="mt-6 grid gap-6 lg:grid-cols-3">
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
             {[
               { label: "Tenants", value: stats.data?.users.tenants ?? 0 },
               { label: "Landlords", value: stats.data?.users.landlords ?? 0 },

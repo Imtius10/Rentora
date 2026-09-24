@@ -51,7 +51,7 @@ function PropertiesView() {
         <p className="mt-1 text-sm text-slate-500 sm:text-base">
           Find apartments, houses and studios across Bangladesh
           {activeFilterCount > 0 ? (
-            <span className="ml-1.5 rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-semibold text-indigo-700">
+            <span className="ml-1.5 inline-block translate-y-[-0.5px] rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-semibold text-indigo-700 align-middle">
               {activeFilterCount} active filter{activeFilterCount > 1 ? "s" : ""}
             </span>
           ) : null}

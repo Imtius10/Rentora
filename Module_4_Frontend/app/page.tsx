@@ -7,10 +7,10 @@ import {
   ArrowRight,
   BadgeCheck,
   BedDouble,
+  Building2,
   CheckCircle2,
   CreditCard,
   Heart,
-  KeyRound,
   Quote,
   Search,
   ShieldCheck,
@@ -42,24 +42,6 @@ import {
   CarouselPrevious,
 } from "@/components/shadcn/carousel";
 
-const PERKS = [
-  {
-    icon: Search,
-    title: "Find your home",
-    description: "Browse hundreds of verified listings in Dhaka and beyond with powerful filters.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Secure payments",
-    description: "Pay rent deposits securely through Stripe with full payment history.",
-  },
-  {
-    icon: KeyRound,
-    title: "Easy management",
-    description: "Submit rental requests, track approvals, and review your stays from one dashboard.",
-  },
-];
-
 const FEATURES = [
   {
     icon: BadgeCheck,
@@ -87,6 +69,11 @@ const FEATURES = [
     title: "3 user roles",
     description: "Dedicated dashboards for tenants, landlords and admins.",
     className: "md:col-span-2",
+  },
+  {
+    icon: Building2,
+    title: "Built for Bangladesh",
+    description: "BDT pricing, local areas and familiar property types across Dhaka and beyond.",
   },
 ];
 
@@ -170,7 +157,6 @@ export default function HomePage() {
   const { data, isLoading } = useProperties({ params: { limit: 6 } });
 
   const recentProperties = data?.data ?? [];
-  const marqueeCategories = [...(categories ?? []), ...(categories ?? [])];
 
   const searchHero = () => {
     const params = new URLSearchParams();
@@ -210,9 +196,9 @@ export default function HomePage() {
                 onChange={(e) => setHeroQuery(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && searchHero()}
                 placeholder="Search by area or property type…"
-                className="h-11 w-full bg-transparent text-sm text-white placeholder:text-slate-400 focus:outline-none"
+                className="h-10 w-full min-w-0 bg-transparent text-sm text-white placeholder:text-slate-400 focus:outline-none"
               />
-              <Button onClick={searchHero} className="rounded-xl">
+              <Button onClick={searchHero} className="shrink-0 rounded-xl">
                 Search
               </Button>
             </div>
@@ -247,25 +233,9 @@ export default function HomePage() {
           </div>
         </div>
         <div className="relative mt-6 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
-          <div className="flex w-max animate-marquee gap-4 pr-4">
-            {marqueeCategories.map((category, i) => (
-              <Link
-                key={`${category}-${i}`}
-                href={`/properties?category=${encodeURIComponent(category)}`}
-                className="group flex shrink-0 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 transition hover:-translate-y-0.5 hover:border-indigo-200 hover:bg-indigo-50/50 hover:shadow-lg hover:shadow-indigo-500/10"
-              >
-                <span
-                  className={`flex size-9 items-center justify-center rounded-xl bg-gradient-to-br text-white ${categoryGradient(
-                    category
-                  )}`}
-                >
-                  <CategoryIcon category={category} className="size-4.5" />
-                </span>
-                <span className="text-sm font-semibold text-slate-700 group-hover:text-indigo-700">
-                  {titleCase(getCategoryLabel(category))}
-                </span>
-              </Link>
-            ))}
+          <div className="flex w-max animate-marquee">
+            <CategoryMarqueeRow categories={categories ?? []} />
+            <CategoryMarqueeRow categories={categories ?? []} aria-hidden />
           </div>
         </div>
       </section>
@@ -406,9 +376,9 @@ export default function HomePage() {
             className="mx-auto mt-10 max-w-4xl"
           >
             <CarouselContent>
-              {TESTIMONIALS.map((t, index) => (
+              {TESTIMONIALS.map((t) => (
                 <CarouselItem key={t.name} className="md:basis-1/2 lg:basis-1/3">
-                  <div className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 transition hover:shadow-md">
+                  <div className="flex h-full min-h-[15rem] flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 transition hover:shadow-md">
                     <div className="flex items-center justify-between">
                       <QuoteIcon />
                       <StarRating value={t.rating} readonly />
@@ -501,6 +471,39 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+function CategoryMarqueeRow({
+  categories,
+  ariaHidden,
+}: {
+  categories: string[];
+  ariaHidden?: boolean;
+}) {
+  if (categories.length === 0) return null;
+  return (
+    <div className="flex shrink-0 gap-4 pr-4" aria-hidden={ariaHidden}>
+      {categories.map((category) => (
+        <Link
+          key={category}
+          href={`/properties?category=${encodeURIComponent(category)}`}
+          tabIndex={ariaHidden ? -1 : undefined}
+          className="group flex shrink-0 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 transition hover:-translate-y-0.5 hover:border-indigo-200 hover:bg-indigo-50/50 hover:shadow-lg hover:shadow-indigo-500/10"
+        >
+          <span
+            className={`flex size-9 items-center justify-center rounded-xl bg-gradient-to-br text-white ${categoryGradient(
+              category
+            )}`}
+          >
+            <CategoryIcon category={category} className="size-4.5" />
+          </span>
+          <span className="text-sm font-semibold text-slate-700 group-hover:text-indigo-700">
+            {titleCase(getCategoryLabel(category))}
+          </span>
+        </Link>
+      ))}
     </div>
   );
 }
