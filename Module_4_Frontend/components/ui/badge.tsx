@@ -6,29 +6,17 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 }
 
 export function Badge({ className, iconClassName, children, ...props }: BadgeProps) {
-  if (iconClassName) {
-    return (
-      <span
-        className={cn(
-          "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-medium ring-1",
-          className
-        )}
-        {...props}
-      >
-        <span className={cn("size-1.5 rounded-full", iconClassName)} aria-hidden />
-        {children}
-      </span>
-    );
-  }
-
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-medium ring-1",
+        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1",
         className
       )}
       {...props}
     >
+      {iconClassName && (
+        <span className={cn("size-1.5 shrink-0 rounded-full", iconClassName)} aria-hidden />
+      )}
       {children}
     </span>
   );

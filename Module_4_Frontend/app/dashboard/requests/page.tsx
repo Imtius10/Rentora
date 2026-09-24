@@ -174,7 +174,7 @@ export default function RequestsPage() {
                         </p>
                       </div>
 
-                      <div className="flex shrink-0 flex-row items-center gap-2 sm:flex-col">
+                      <div className="flex shrink-0 flex-row items-center gap-2 sm:flex-col sm:items-end">
                         {isTenant ? (
                           <>
                             {request.status === "APPROVED" && !isPaid && (

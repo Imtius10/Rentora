@@ -97,7 +97,7 @@ export default function AdminUsersPage() {
                             <Select
                               value={user.role === "TENANT" ? "TENANT" : "LANDLORD"}
                               onChange={(e) => changeRole(user, e.target.value as "TENANT" | "LANDLORD")}
-                              className="w-24"
+                              className="w-28"
                             >
                               <option value="TENANT">Tenant</option>
                               <option value="LANDLORD">Landlord</option>

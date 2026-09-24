@@ -1,4 +1,5 @@
 import { forwardRef, useId, type HTMLAttributes, type InputHTMLAttributes, type TextareaHTMLAttributes, type SelectHTMLAttributes } from "react";
+import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const FIELD_CLASSES = cn(
@@ -96,14 +97,20 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
   const id = idProp ?? autoId;
   return (
     <FieldWrap label={label} error={error} hint={hint} id={id} className={className}>
-      <select
-        ref={ref}
-        id={id}
-        className={cn(FIELD_CLASSES, "h-10 appearance-none bg-white pr-9", error && ERROR_CLASSES)}
-        {...props}
-      >
-        {children}
-      </select>
+      <div className="relative">
+        <select
+          ref={ref}
+          id={id}
+          className={cn(FIELD_CLASSES, "h-10 appearance-none bg-white pr-9", error && ERROR_CLASSES)}
+          {...props}
+        >
+          {children}
+        </select>
+        <ChevronDown
+          className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-slate-400"
+          aria-hidden
+        />
+      </div>
     </FieldWrap>
   );
 });

@@ -26,6 +26,8 @@ import { PropertyCardSkeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { StarRating } from "@/components/ui/rating";
+import { Reveal } from "@/components/ui/reveal";
+import { HeroScene } from "@/components/hero-scene";
 import { initials, titleCase } from "@/lib/utils";
 import { getCategoryLabel } from "@/lib/constants";
 import {
@@ -168,13 +170,12 @@ export default function HomePage() {
     <div>
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-slate-900">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(99,102,241,0.4),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(236,72,153,0.28),transparent_50%)]" />
+        <HeroScene />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(99,102,241,0.25),transparent_55%)]" />
         <div className="pointer-events-none absolute inset-0 opacity-[0.07] [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:26px_26px]" />
-        <div className="pointer-events-none absolute -left-24 top-1/3 size-72 rounded-full bg-indigo-500/30 blur-3xl" />
-        <div className="pointer-events-none absolute -right-16 top-10 size-72 rounded-full bg-fuchsia-500/20 blur-3xl" />
 
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-32">
-          <div className="max-w-2xl animate-fade-in-up">
+          <Reveal className="max-w-2xl" y={32}>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur">
               <Sparkles className="size-3.5 text-indigo-300" />
               Bangladesh&apos;s rental marketplace
@@ -213,7 +214,7 @@ export default function HomePage() {
                 <Star className="size-4 fill-amber-400 text-amber-400" /> 4.8/5 tenant rating
               </span>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -242,7 +243,7 @@ export default function HomePage() {
 
       {/* ── Why RentNest ─────────────────────────────────────── */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="text-center">
+        <Reveal className="text-center">
           <span className="text-xs font-bold uppercase tracking-widest text-indigo-600">
             Why RentNest
           </span>
@@ -253,13 +254,13 @@ export default function HomePage() {
             Everything you need to find a home or rent yours — designed around trust and
             transparency.
           </p>
-        </div>
+        </Reveal>
         <div className="mt-10 grid gap-5 sm:grid-cols-2 md:grid-cols-4">
-          {FEATURES.map((feature) => (
-            <Card
-              key={feature.title}
-              className={`group relative overflow-hidden p-6 transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-500/10 ${feature.className ?? ""}`}
-            >
+          {FEATURES.map((feature, i) => (
+            <Reveal key={feature.title} delay={Math.min(i, 3) * 0.08} className="h-full">
+              <Card
+                className={`group relative h-full overflow-hidden p-6 transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-500/10 ${feature.className ?? ""}`}
+              >
               <div
                 className="pointer-events-none absolute -right-10 -top-10 size-32 rounded-full bg-indigo-100/60 opacity-0 blur-2xl transition group-hover:opacity-100"
               />
@@ -276,7 +277,8 @@ export default function HomePage() {
               <p className="relative mt-2 text-sm leading-relaxed text-slate-500">
                 {feature.description}
               </p>
-            </Card>
+              </Card>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -284,7 +286,7 @@ export default function HomePage() {
       {/* ── Latest listings ──────────────────────────────────── */}
       <section className="border-y border-slate-200 bg-white py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between">
+          <Reveal className="flex items-end justify-between">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-indigo-600">
                 Fresh on the market
@@ -300,13 +302,18 @@ export default function HomePage() {
             >
               View all <ArrowRight className="size-4" />
             </Link>
-          </div>
+          </Reveal>
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {isLoading
               ? Array.from({ length: 6 }).map((_, i) => <PropertyCardSkeleton key={i} />)
               : recentProperties.map((property) => (
                   <PropertyCard key={property.id} property={property} />
                 ))}
+          </div>
+          <div className="mt-8 text-center sm:hidden">
+            <Button variant="outline" onClick={() => router.push("/properties")}>
+              View all properties <ArrowRight className="size-4" />
+            </Button>
           </div>
         </div>
       </section>
@@ -332,7 +339,7 @@ export default function HomePage() {
 
       {/* ── How it works ─────────────────────────────────────── */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="text-center">
+        <Reveal className="text-center">
           <span className="text-xs font-bold uppercase tracking-widest text-indigo-600">
             Simple by design
           </span>
@@ -342,20 +349,19 @@ export default function HomePage() {
           <p className="mt-2 text-sm text-slate-500">
             A simple rental journey from search to move-in
           </p>
-        </div>
+        </Reveal>
         <div className="relative mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="pointer-events-none absolute left-0 right-0 top-10 hidden h-px bg-gradient-to-r from-transparent via-indigo-200 to-transparent lg:block" />
-          {STEPS.map((item) => (
-            <div
-              key={item.step}
-              className="relative rounded-2xl border border-slate-200 bg-white p-6 text-center transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-500/10"
-            >
+          <div className="pointer-events-none absolute left-0 right-0 top-12 hidden h-px bg-gradient-to-r from-transparent via-indigo-200 to-transparent lg:block" />
+          {STEPS.map((item, i) => (
+            <Reveal key={item.step} delay={i * 0.08} className="h-full">
+              <div className="relative h-full rounded-2xl border border-slate-200 bg-white p-6 text-center transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-500/10">
               <span className="relative mx-auto flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 text-sm font-black text-white shadow-lg shadow-indigo-600/25">
                 {item.step}
               </span>
               <h3 className="mt-5 font-semibold text-slate-900">{item.title}</h3>
               <p className="mt-1.5 text-sm leading-relaxed text-slate-500">{item.description}</p>
-            </div>
+              </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -363,17 +369,18 @@ export default function HomePage() {
       {/* ── Testimonials carousel ────────────────────────────── */}
       <section className="border-y border-slate-200 bg-slate-50 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
+          <Reveal className="text-center">
             <span className="text-xs font-bold uppercase tracking-widest text-indigo-600">
               Loved by tenants & landlords
             </span>
             <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
               What people say
             </h2>
-          </div>
+          </Reveal>
+          <Reveal delay={0.1}>
           <Carousel
             opts={{ align: "start", loop: true }}
-            className="mx-auto mt-10 max-w-4xl"
+            className="mx-auto mt-10 max-w-4xl md:px-12"
           >
             <CarouselContent>
               {TESTIMONIALS.map((t) => (
@@ -406,12 +413,13 @@ export default function HomePage() {
             <CarouselPrevious className="hidden md:flex" />
             <CarouselNext className="hidden md:flex" />
           </Carousel>
+          </Reveal>
         </div>
       </section>
 
       {/* ── FAQ ──────────────────────────────────────────────── */}
       <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="text-center">
+        <Reveal className="text-center">
           <span className="text-xs font-bold uppercase tracking-widest text-indigo-600">
             Good to know
           </span>
@@ -421,11 +429,12 @@ export default function HomePage() {
           <p className="mt-2 text-sm text-slate-500">
             Everything you need to know before you start renting with RentNest.
           </p>
-        </div>
+        </Reveal>
+        <Reveal delay={0.1}>
         <Accordion type="single" collapsible className="mt-8 w-full">
           {FAQS.map((faq, index) => (
             <AccordionItem key={faq.question} value={`item-${index}`}>
-              <AccordionTrigger className="text-left font-semibold text-slate-900">
+              <AccordionTrigger className="text-left font-semibold text-slate-900 hover:no-underline">
                 {faq.question}
               </AccordionTrigger>
               <AccordionContent className="leading-relaxed text-slate-600">
@@ -434,10 +443,12 @@ export default function HomePage() {
             </AccordionItem>
           ))}
         </Accordion>
+        </Reveal>
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────── */}
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+        <Reveal>
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 px-6 py-14 text-center sm:px-12">
           <div className="pointer-events-none absolute inset-0 opacity-10 [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:20px_20px]" />
           <div className="pointer-events-none absolute -left-10 -top-10 size-52 rounded-full bg-white/10 blur-3xl" />
@@ -470,6 +481,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+        </Reveal>
       </section>
     </div>
   );

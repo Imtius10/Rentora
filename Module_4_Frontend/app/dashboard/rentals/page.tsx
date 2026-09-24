@@ -64,11 +64,12 @@ export default function AdminRentalsPage() {
                       <td className="px-4 py-3.5">
                         <Link
                           href={`/properties/${request.propertyId}`}
-                          className="font-medium text-indigo-600 hover:underline"
+                          className="block max-w-64 truncate font-medium text-indigo-600 hover:underline"
+                          title={request.property.title}
                         >
                           {request.property.title}
                         </Link>
-                        <p className="truncate text-xs text-slate-500">
+                        <p className="max-w-64 truncate text-xs text-slate-500">
                           {request.property.location} · {formatBDT(request.property.price)}
                         </p>
                       </td>

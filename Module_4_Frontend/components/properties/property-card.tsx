@@ -33,7 +33,7 @@ export function PropertyCard({ property }: { property: Property }) {
         <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-500">
           {property.description}
         </p>
-        <div className="mt-4 flex items-center justify-between">
+        <div className="mt-4 flex items-end justify-between gap-3">
           <div className="flex flex-col">
             <span className="text-lg font-bold text-slate-900">
               {formatBDT(property.price)}
